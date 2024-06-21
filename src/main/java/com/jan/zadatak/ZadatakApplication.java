@@ -1,36 +1,60 @@
 package com.jan.zadatak;
 
-import com.jan.model.product.Dimensions;
+import com.jan.model.category.Category;
 import com.jan.model.product.Product;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.springframework.boot.SpringApplication;
+import com.jan.model.product.ProductResponse;
+import com.jan.model.user.User;
+import com.jan.model.user.UserResponse;
+import com.jan.service.WebApiDataCollectorCategories;
+import com.jan.service.WebApiDataCollectorProducts;
+import com.jan.service.WebApiDataCollectorUsers;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.util.List;
 
 @SpringBootApplication
 public class ZadatakApplication {
+	public static void main(String[] args) throws IOException, InterruptedException {
 
-	public static void main(String[] args){
+		RestTemplate restTemplate = new RestTemplate();
+		String apiUrl = "https://dummyjson.com/products";
+		String apiUrl2 = "https://dummyjson.com/users";
+		String apiUrl3 = "https://dummyjson.com/products/categories";
 
-		Product prod = new Product();
-		prod.setBrand("smokey");
-		prod.setId(2);
-		Dimensions dimensions = new Dimensions();
-		dimensions.setWidth(5);
-		dimensions.setHeight(1);
-		dimensions.setDepth(5);
-		prod.setDimensions(dimensions);
+		WebApiDataCollectorProducts webApiDataCollector = new WebApiDataCollectorProducts(restTemplate,apiUrl);
 
-		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        Session session = sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
+		ProductResponse productResponse = webApiDataCollector.getData();
+		List<Product> products = productResponse.getProducts();
+		products.forEach(System.out::println);
 
-		session.save(prod);
+		WebApiDataCollectorUsers webApiDataCollector2 = new WebApiDataCollectorUsers(restTemplate,apiUrl2);
 
-		transaction.commit();
+		UserResponse userResponse = webApiDataCollector2.getData();
+		List<User> users = userResponse.getUsers();
+		users.forEach(System.out::println);
 
-        sessionFactory.close();
+		WebApiDataCollectorCategories webApiDataCollector3 = new WebApiDataCollectorCategories(restTemplate,apiUrl3);
+
+		List<Category> categories = webApiDataCollector3.getData();
+		categories.forEach(System.out::println);
+
+
+		//SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+        //Session session = sessionFactory.openSession();
+		//Transaction transaction = session.beginTransaction();
+		//try {
+		//	List<Product> products = fetchProductsFromApi(API_URL);
+			// Print out the products or do something with them
+
+		//	products.forEach(System.out::println);
+		//} catch (IOException | InterruptedException e) {
+		//	e.printStackTrace();
+		//}
+		//transaction.commit();
+
+		//sessionFactory.close();
 	}
 }
+

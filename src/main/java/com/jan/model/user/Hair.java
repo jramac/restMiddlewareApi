@@ -1,2 +1,8 @@
-package com.jan.model.user;public class Hair {
+package com.jan.model.user;
+import lombok.Data;
+
+@Data
+public class Hair {
+    private String color;
+    private String type;
 }

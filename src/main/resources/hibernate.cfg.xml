@@ -20,7 +20,7 @@
         <property name="hibernate.show_sql">true</property>
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
 
         <!-- Names of annotated entity classes -->
         <mapping class="com.jan.model.product.Dimensions"/>
