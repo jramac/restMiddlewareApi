@@ -26,7 +26,15 @@
         <mapping class="com.jan.model.product.Dimensions"/>
         <mapping class="com.jan.model.product.Product"/>
         <mapping class="com.jan.model.product.Dimensions"/>
-        <mapping class="com.jan.model.product.Meta"/>
+        <mapping class="com.jan.model.user.Address"/>
+        <mapping class="com.jan.model.user.BankDetails"/>
+        <mapping class="com.jan.model.user.Company"/>
+        <mapping class="com.jan.model.user.Coordinates"/>
+        <mapping class="com.jan.model.user.Crypto"/>
+        <mapping class="com.jan.model.user.Hair"/>
+        <mapping class="com.jan.model.user.User"/>
+        <mapping class="com.jan.model.category.Category"/>
+
         <!-- Add other entity mappings here -->
     </session-factory>
 </hibernate-configuration>

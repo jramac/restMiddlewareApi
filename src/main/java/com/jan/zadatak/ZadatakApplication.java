@@ -8,15 +8,23 @@ import com.jan.model.user.UserResponse;
 import com.jan.service.WebApiDataCollectorCategories;
 import com.jan.service.WebApiDataCollectorProducts;
 import com.jan.service.WebApiDataCollectorUsers;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.List;
 
 @SpringBootApplication
+@EntityScan(basePackages = {"com.jan.model.user", "com.jan.model.product", "com.jan.model.category"})
 public class ZadatakApplication {
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) {
 
 		RestTemplate restTemplate = new RestTemplate();
 		String apiUrl = "https://dummyjson.com/products";
@@ -40,21 +48,22 @@ public class ZadatakApplication {
 		List<Category> categories = webApiDataCollector3.getData();
 		categories.forEach(System.out::println);
 
+		StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+		try (SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+			 Session session = sessionFactory.openSession()) {
 
-		//SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        //Session session = sessionFactory.openSession();
-		//Transaction transaction = session.beginTransaction();
-		//try {
-		//	List<Product> products = fetchProductsFromApi(API_URL);
-			// Print out the products or do something with them
+			// Transaction for batch save
+			Transaction transaction = session.beginTransaction();
 
-		//	products.forEach(System.out::println);
-		//} catch (IOException | InterruptedException e) {
-		//	e.printStackTrace();
-		//}
-		//transaction.commit();
+			// Save each product
+			users.forEach(session::save);
 
-		//sessionFactory.close();
+			// Commit the transaction
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			StandardServiceRegistryBuilder.destroy(registry);
+		}
 	}
 }
 

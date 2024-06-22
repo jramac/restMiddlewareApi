@@ -1,13 +1,9 @@
 package com.jan.model.product;
 
 
-import com.google.gson.annotations.SerializedName;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.jan.model.product.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
