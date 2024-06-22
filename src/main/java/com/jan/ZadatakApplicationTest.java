@@ -1,10 +1,8 @@
-package com.jan.zadatak;
+package com.jan;
 
 import com.jan.model.category.Category;
 import com.jan.model.product.Product;
-import com.jan.model.product.ProductResponse;
 import com.jan.model.user.User;
-import com.jan.model.user.UserResponse;
 import com.jan.service.WebApiDataCollectorCategories;
 import com.jan.service.WebApiDataCollectorProducts;
 import com.jan.service.WebApiDataCollectorUsers;
@@ -18,12 +16,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.util.List;
 
 @SpringBootApplication
 @EntityScan(basePackages = {"com.jan.model.user", "com.jan.model.product", "com.jan.model.category"})
-public class ZadatakApplication {
+public class ZadatakApplicationTest {
 	public static void main(String[] args) {
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -32,19 +29,14 @@ public class ZadatakApplication {
 		String apiUrl3 = "https://dummyjson.com/products/categories";
 
 		WebApiDataCollectorProducts webApiDataCollector = new WebApiDataCollectorProducts(restTemplate,apiUrl);
-
-		ProductResponse productResponse = webApiDataCollector.getData();
-		List<Product> products = productResponse.getProducts();
+		List<Product> products = webApiDataCollector.getData();
 		products.forEach(System.out::println);
 
 		WebApiDataCollectorUsers webApiDataCollector2 = new WebApiDataCollectorUsers(restTemplate,apiUrl2);
-
-		UserResponse userResponse = webApiDataCollector2.getData();
-		List<User> users = userResponse.getUsers();
+		List<User> users = webApiDataCollector2.getData();
 		users.forEach(System.out::println);
 
 		WebApiDataCollectorCategories webApiDataCollector3 = new WebApiDataCollectorCategories(restTemplate,apiUrl3);
-
 		List<Category> categories = webApiDataCollector3.getData();
 		categories.forEach(System.out::println);
 
@@ -56,7 +48,11 @@ public class ZadatakApplication {
 			Transaction transaction = session.beginTransaction();
 
 			// Save each product
+
+			products.forEach(session::save);
 			users.forEach(session::save);
+			categories.forEach(session::save);
+
 
 			// Commit the transaction
 			transaction.commit();

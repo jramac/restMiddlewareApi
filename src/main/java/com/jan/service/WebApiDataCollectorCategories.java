@@ -5,13 +5,13 @@ import com.google.gson.reflect.TypeToken;
 import com.jan.model.category.Category;
 import com.jan.model.product.Product;
 import com.jan.model.product.ProductResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
-@Component
 public class WebApiDataCollectorCategories implements DataCollector<List<Category>> {
 
     private String apiUrl;

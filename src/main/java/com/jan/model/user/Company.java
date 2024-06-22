@@ -2,7 +2,6 @@ package com.jan.model.user;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Entity
 @NoArgsConstructor
 @Table(name = "companies")

@@ -1,11 +1,15 @@
 package com.jan.service;
 
 import com.google.gson.Gson;
+import com.jan.model.product.Product;
 import com.jan.model.product.ProductResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-@Component
-public class WebApiDataCollectorProducts implements DataCollector<ProductResponse> {
+
+import java.util.List;
+
+
+public class WebApiDataCollectorProducts implements DataCollector<List<Product>> {
 
     private String apiUrl;
 
@@ -17,11 +21,12 @@ public class WebApiDataCollectorProducts implements DataCollector<ProductRespons
     }
 
     @Override
-    public ProductResponse getData() {
+    public List<Product> getData() {
         String jsonResponse = restTemplate.getForObject(apiUrl, String.class);
         Gson gson = new Gson();
         ProductResponse productResponse = gson.fromJson(jsonResponse, ProductResponse.class);
-        return productResponse;
+        List<Product> products = productResponse.getProducts();
+        return products;
     }
 }
 

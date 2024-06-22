@@ -8,20 +8,15 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-@Entity
-@Table(name = "reviews")
+@Embeddable
 public class Review {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
     private double rating;
     private String comment;
     private Date date;
+    @Column(name = "reviever_name")
     private String reviewerName;
+    @Column(name = "reviever_email")
     private String reviewerEmail;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
 }

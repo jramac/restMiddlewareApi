@@ -1,11 +1,14 @@
 package com.jan.service;
 
 import com.google.gson.Gson;
+import com.jan.model.user.User;
 import com.jan.model.user.UserResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-@Component
-public class WebApiDataCollectorUsers implements DataCollector<UserResponse> {
+
+import java.util.List;
+
+public class WebApiDataCollectorUsers implements DataCollector<List<User>> {
 
     private String apiUrl;
 
@@ -17,11 +20,11 @@ public class WebApiDataCollectorUsers implements DataCollector<UserResponse> {
     }
 
     @Override
-    public UserResponse getData() {
+    public List<User> getData() {
         String jsonResponse = restTemplate.getForObject(apiUrl, String.class);
         Gson gson = new Gson();
         UserResponse userResponse = gson.fromJson(jsonResponse, UserResponse.class);
-        return userResponse;
+        return userResponse.getUsers();
     }
 }
 

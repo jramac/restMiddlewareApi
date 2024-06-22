@@ -4,7 +4,6 @@ import jakarta.persistence.Embeddable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Embeddable
 @NoArgsConstructor
 @Data
 public class Coordinates {
