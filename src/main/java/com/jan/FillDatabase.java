@@ -18,9 +18,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+// TODO: 23.06.2024. Pretvori ovo u funkciju koja se pokrece sa serverom,
+//  					trenutno ovo sluzi za punit bazu sa podatcima sa WEBAPI-a.
 @SpringBootApplication
 @EntityScan(basePackages = {"com.jan.model.user", "com.jan.model.product", "com.jan.model.category"})
-public class ZadatakApplicationTest {
+public class FillDatabase {
 	public static void main(String[] args) {
 
 		RestTemplate restTemplate = new RestTemplate();
