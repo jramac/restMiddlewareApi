@@ -7,7 +7,7 @@
         <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
         <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=dvatri;encrypt=true;trustServerCertificate=true</property>
         <property name="connection.username">sa</property>
-        <property name="connection.password">janinika123</property>
+        <property name="connection.password">sa</property>
 
         <!-- JDBC connection pool settings -->
         <property name="hibernate.c3p0.min_size">5</property>
