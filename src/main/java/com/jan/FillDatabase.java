@@ -3,9 +3,7 @@ package com.jan;
 import com.jan.model.category.Category;
 import com.jan.model.product.Product;
 import com.jan.model.user.User;
-import com.jan.service.WebApiDataCollectorCategories;
-import com.jan.service.WebApiDataCollectorProducts;
-import com.jan.service.WebApiDataCollectorUsers;
+import com.jan.service.factory.DataServiceFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -20,43 +18,31 @@ import java.util.List;
 
 // TODO: 23.06.2024. Pretvori ovo u funkciju koja se pokrece sa serverom,
 //  					trenutno ovo sluzi za punit bazu sa podatcima sa WEBAPI-a.
-@SpringBootApplication
-@EntityScan(basePackages = {"com.jan.model.user", "com.jan.model.product", "com.jan.model.category"})
 public class FillDatabase {
 	public static void main(String[] args) {
+		DataServiceFactory factory = DataServiceFactory.getInstance();
 
-		RestTemplate restTemplate = new RestTemplate();
-		String apiUrl = "https://dummyjson.com/products";
-		String apiUrl2 = "https://dummyjson.com/users";
-		String apiUrl3 = "https://dummyjson.com/products/categories";
+		String productApiUrl = "https://dummyjson.com/products";
+		String userApiUrl = "https://dummyjson.com/users";
+		String categoryApiUrl = "https://dummyjson.com/products/categories";
 
-		WebApiDataCollectorProducts webApiDataCollector = new WebApiDataCollectorProducts(restTemplate,apiUrl);
-		List<Product> products = webApiDataCollector.getData();
+		List<Product> products= factory.getWebApiProductDataCollector(productApiUrl).getData();
 		products.forEach(System.out::println);
-
-		WebApiDataCollectorUsers webApiDataCollector2 = new WebApiDataCollectorUsers(restTemplate,apiUrl2);
-		List<User> users = webApiDataCollector2.getData();
+		List<User> users = factory.getWebApiUserDataCollector(userApiUrl).getData();
 		users.forEach(System.out::println);
-
-		WebApiDataCollectorCategories webApiDataCollector3 = new WebApiDataCollectorCategories(restTemplate,apiUrl3);
-		List<Category> categories = webApiDataCollector3.getData();
+		List<Category> categories= factory.getWebApiCategoryDataCollector(categoryApiUrl).getData();
 		categories.forEach(System.out::println);
 
 		StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
 		try (SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
 			 Session session = sessionFactory.openSession()) {
 
-			// Transaction for batch save
 			Transaction transaction = session.beginTransaction();
-
-			// Save each product
 
 			products.forEach(session::save);
 			users.forEach(session::save);
 			categories.forEach(session::save);
 
-
-			// Commit the transaction
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
