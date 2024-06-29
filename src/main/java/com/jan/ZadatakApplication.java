@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @SpringBootApplication
 @EntityScan(basePackages = {"com.jan.model.user", "com.jan.model.product", "com.jan.model.category"})
 @EnableWebSecurity
-//@EnableCaching
+@EnableCaching
 public class ZadatakApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ZadatakApplication.class, args);
