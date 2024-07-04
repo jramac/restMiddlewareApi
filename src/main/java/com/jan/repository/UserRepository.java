@@ -8,8 +8,8 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    //@Cacheable("users")
+
     List<User> findByRole(String role);
-    //@Cacheable("users")
+
     List<User> findAll();
 }

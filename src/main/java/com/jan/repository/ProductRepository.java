@@ -9,10 +9,10 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    //@Cacheable("products")
+
     List<Product> findByCategory(String category);
-    //@Cacheable("products")
+
     List<Product> findByPriceLessThanEqual(Double price);
-    //@Cacheable("products")
+
     List<Product> findByTitleContainingIgnoreCase(String title);
 }
